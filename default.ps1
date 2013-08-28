@@ -43,12 +43,36 @@ Task Test -Depends Compile {
     Exec { & "$build_dir\tools\NUnit.Runners\tools\nunit-console.exe" /nologo /noresult /framework=4.0.30319 @TestDlls }
 }
 
-Task Publish -Depends Clean, Test {
+Task Publish -Depends Test {
     $version = Get-Content $build_dir\version.txt
     
+    if(Test-Path $build_dir\build) {
+        Remove-Item $build_dir\build -Force -Recurse
+    }
     New-Item $build_dir\build -type directory
+    New-Item $build_dir\build\tools -type directory
 
-   	Exec { & "$build_dir\tools\nuget\nuget.exe" pack "$build_dir\src\NuGetCheck\NuGetCheck.csproj" -Build -OutputDirectory $build_dir\build, -Symbols -Prop Configuration=$build_cfg }
+    @(
+        "<?xml version=`"1.0`"?>",
+        "<package>",
+        "  <metadata>",
+        "    <id>NuGetCheck</id>",
+        "    <version>$version</version>",
+        "    <authors>gimmi</authors>",
+        "    <owners>gimmi</owners>",
+        "    <licenseUrl>https://raw.github.com/gimmi/NuGetCheck/master/LICENSE</licenseUrl>",
+        "    <projectUrl>https://github.com/gimmi/NuGetCheck</projectUrl>",
+        "    <requireLicenseAcceptance>false</requireLicenseAcceptance>",
+        "    <description>Command line check tool for NuGet</description>",
+        "    <copyright>Gian Marco Gherardi 2013</copyright>",
+        "    <tags>nuget tool commandline check</tags>",
+        "  </metadata>",
+        "</package>"
+    ) | Out-File "$build_dir\build\Package.nuspec" -Encoding 'utf8'
+
+    Copy-Item $build_dir\src\NuGetCheck\bin\$build_cfg\* $build_dir\build\tools
+
+   	Exec { & "$build_dir\tools\nuget\nuget.exe" pack "$build_dir\build\Package.nuspec" -OutputDirectory $build_dir\build }
 	Exec { & "$build_dir\tools\nuget\nuget.exe" push "$build_dir\build\NuGetCheck.$version.nupkg" }
 
     $version = $version -split "\."

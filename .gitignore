@@ -14,3 +14,11 @@
 /TestResult.xml
 /build/
 /src/SharedAssemblyInfo.cs
+
+# Test solution
+/src/NuGetCheck.Tests/TestSolution/*.user
+/src/NuGetCheck.Tests/TestSolution/*.suo
+/src/NuGetCheck.Tests/TestSolution/*/bin/
+/src/NuGetCheck.Tests/TestSolution/*/obj/
+/src/NuGetCheck.Tests/TestSolution/*/*.user
+/src/NuGetCheck.Tests/TestSolution/_ReSharper.*/

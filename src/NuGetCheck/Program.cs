@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using NuGetCheck.MSBuildInterop;
 
 namespace NuGetCheck
 {
 	public class Program
 	{
 		public static Dictionary<string, ICommand> Commands = new Dictionary<string, ICommand>(StringComparer.OrdinalIgnoreCase) {
-			{"PackageVersionMismatch", new PackageVersionMismatchCommand(new SolutionParser()) }
+			{"PackageVersionMismatch", new PackageVersionMismatchCommand(new SolutionParser(), new PackagesConfigParser()) }
 		};
 
 		public static int Main(string[] args)

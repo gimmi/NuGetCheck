@@ -17,9 +17,7 @@ namespace NuGetCheck
 		{
 			try
 			{
-				Run(args, Console.Out);
-				Console.WriteLine("Done");
-				return 0;
+				return Run(args, Console.Out);
 			}
 			catch (Exception e)
 			{
@@ -36,12 +34,16 @@ namespace NuGetCheck
 
 			if (args.Length == 0)
 			{
-				log.Write("Available commands: ");
+				log.Write("No command specified. Available commands: ");
 				log.WriteLine(string.Join(", ", Commands.Keys));
 				return 1;
 			}
 
-			var command = Commands[args[0]];
+			log.WriteLine();
+			var commandName = args[0];
+			log.WriteLine("Executing command {0}", commandName);
+
+			var command = Commands[commandName];
 			return command.Run(args.Skip(1).ToArray(), log);
 		}
 	}

@@ -22,7 +22,7 @@ Task AssemblyInfo {
     @(
         "[assembly: System.Reflection.AssemblyTitle(`"NuGetCheck`")]",
         "[assembly: System.Reflection.AssemblyProduct(`"NuGetCheck`")]",
-        "[assembly: System.Reflection.AssemblyDescription(`"NuGetCheck`")]",
+        "[assembly: System.Reflection.AssemblyDescription(`"Command line check tool for NuGet`")]",
         "[assembly: System.Reflection.AssemblyCopyright(`"Copyright © Gian Marco Gherardi $year`")]",
         "[assembly: System.Reflection.AssemblyTrademark(`"`")]",
         "[assembly: System.Reflection.AssemblyCompany(`"Gian Marco Gherardi`")]",
